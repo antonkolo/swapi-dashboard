@@ -1,5 +1,5 @@
-import PeopleTable from '@/components/people-table';
-import { type SwapiResponse } from '@/lib/columns';
+import { DataTable } from '@/components/data-table';
+import { columns, type SwapiResponse } from '@/lib/columns';
 
 // function to fetch single page
 async function fetchData(fetchURL: string | URL): Promise<SwapiResponse> {
@@ -39,9 +39,9 @@ const allPeople = await fetchAllPages();
 
 export default async function Home() {
   return (
-    <div>
+    <div className="container mx-auto py-10">
       <h1>The Force Directory</h1>
-      <PeopleTable data={allPeople} />
+      <DataTable columns={columns} data={allPeople} />
     </div>
   );
 }
