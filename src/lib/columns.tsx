@@ -44,7 +44,10 @@ export const columns: ColumnDef<Person, any>[] = [
   {
     accessorKey: 'mass',
     header: 'Mass',
-    cell: ({ row }) => `${row.getValue('mass')} kg`,
+    cell: ({ row }) =>
+      `${row.getValue('mass')} ${
+        row.getValue('mass') !== 'unknown' ? 'kg' : ''
+      }`,
   },
   {
     accessorKey: 'hair_color',

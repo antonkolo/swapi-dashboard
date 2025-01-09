@@ -7,26 +7,55 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { type Person } from '@/lib/columns';
+import { type Person, SwapiResponse } from '@/lib/columns';
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
 }
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
+export function DataTable({ columns }: DataTableProps<Person, any>) {
+  const [nextURL, setNextURL] = useState<URL | null>(null);
+  const [displayData, setDisplayData] = useState<Person[]>([]);
+
+  async function initialFetch() {
+    const initialFetchURL = 'https://swapi.py4e.com/api/people/';
+    const response = await fetch(initialFetchURL);
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch data');
+    }
+
+    const json: SwapiResponse = await response.json();
+    setNextURL(json.next);
+    return json.results;
+  }
+
+  // Fetch initial data
+  useEffect(() => {
+    const fetchData = async () => {
+      setDisplayData(await initialFetch());
+    };
+    fetchData();
+  }, []);
+
+  const handleLoadMore = async () => {
+    if (nextURL) {
+      const response = await fetch(nextURL.toString());
+      const json = await response.json();
+      setNextURL(new URL(json.next));
+      setDisplayData([...displayData, ...json.results]);
+    }
+  };
+
   const table = useReactTable({
-    data,
+    data: displayData,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
@@ -75,6 +104,7 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
+      <button onClick={handleLoadMore}>Load More</button>
     </div>
   );
 }
