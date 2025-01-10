@@ -1,6 +1,8 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
+import { ArrowUpDown } from 'lucide-react';
 
 export type Person = {
   name: string;
@@ -33,25 +35,86 @@ const columnHelper = createColumnHelper<Person>();
 export const columns: ColumnDef<Person, any>[] = [
   {
     accessorKey: 'name',
-    header: 'Name',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={(e) =>
+            column.toggleSorting(column.getIsSorted() === 'asc', e.shiftKey)
+          }
+        >
+          Name
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => row.getValue('name'),
   },
   {
     accessorKey: 'height',
-    header: 'Height',
-    cell: ({ row }) => `${row.getValue('height')} cm`,
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={(e) =>
+            column.toggleSorting(column.getIsSorted() === 'asc', e.shiftKey)
+          }
+        >
+          Height
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) =>
+      `${row.getValue('height')} ${
+        parseInt(row.getValue('height')) ? 'cm' : ''
+      }`,
+    sortingFn: (rowA, rowB) => {
+      const heightA = parseInt(rowA.getValue('height')) || 0;
+      const heightB = parseInt(rowB.getValue('height')) || 0;
+      return heightA - heightB;
+    },
   },
   {
     accessorKey: 'mass',
-    header: 'Mass',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={(e) =>
+            column.toggleSorting(column.getIsSorted() === 'asc', e.shiftKey)
+          }
+        >
+          Mass
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) =>
       `${row.getValue('mass')} ${
         row.getValue('mass') !== 'unknown' ? 'kg' : ''
       }`,
+    sortingFn: (rowA, rowB) => {
+      const massA = parseInt(rowA.getValue('mass')) || 0;
+      const massB = parseInt(rowB.getValue('mass')) || 0;
+      return massA - massB;
+    },
   },
   {
     accessorKey: 'hair_color',
-    header: 'Hair Color',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={(e) =>
+            column.toggleSorting(column.getIsSorted() === 'asc', e.shiftKey)
+          }
+        >
+          Hair Color
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => row.getValue('hair_color'),
   },
   {
@@ -78,11 +141,6 @@ export const columns: ColumnDef<Person, any>[] = [
     accessorKey: 'films',
     header: 'Films',
     cell: ({ row }) => (row.getValue('films') as string[]).length,
-  },
-  {
-    accessorKey: 'species',
-    header: 'Species',
-    cell: ({ row }) => (row.getValue('species') as string[]).length,
   },
   {
     accessorKey: 'vehicles',
