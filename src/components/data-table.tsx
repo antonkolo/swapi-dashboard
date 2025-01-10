@@ -1,4 +1,5 @@
 'use client';
+import { Input } from '@/components/ui/input';
 import {
   Table,
   TableBody,
@@ -10,8 +11,10 @@ import {
 import { type Person, SwapiResponse } from '@/lib/columns';
 import {
   ColumnDef,
+  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getSortedRowModel,
   SortingState,
   useReactTable,
@@ -27,8 +30,13 @@ interface DataTableProps<TData, TValue> {
 export function DataTable({ columns }: DataTableProps<Person, any>) {
   const [nextURL, setNextURL] = useState<URL | null>(null);
   const [displayData, setDisplayData] = useState<Person[]>([]);
-  const [sorting, setSorting] = useState<SortingState>([]);
   const [loading, setLoading] = useState(false);
+
+  //sorting and filtering states
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
 
   async function initialFetch() {
     setLoading(true);
@@ -71,13 +79,26 @@ export function DataTable({ columns }: DataTableProps<Person, any>) {
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
+      columnFilters,
     },
   });
 
   return (
-    <>
+    <div>
+      <div className="flex items-center py-4">
+        <Input
+          placeholder="Search..."
+          value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+          onChange={(event) =>
+            table.getColumn('name')?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
+        />
+      </div>
       <div
         onClick={() => {
           console.log(table.getState().sorting);
@@ -133,11 +154,13 @@ export function DataTable({ columns }: DataTableProps<Person, any>) {
           </TableBody>
         </Table>
       </div>
-      {nextURL && (
-        <Button onClick={handleLoadMore} disabled={loading}>
-          Load More {loading && <Loader2 className="animate-spin" />}
-        </Button>
-      )}
-    </>
+      <div className="flex items-center justify-center py-4">
+        {nextURL && (
+          <Button variant="outline" onClick={handleLoadMore} disabled={loading}>
+            Load More {loading && <Loader2 className="animate-spin" />}
+          </Button>
+        )}
+      </div>
+    </div>
   );
 }
