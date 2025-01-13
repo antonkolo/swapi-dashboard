@@ -1,5 +1,5 @@
 'use client';
-import { Input } from '@/components/ui/input';
+
 import {
   Table,
   TableBody,
@@ -37,12 +37,13 @@ export function DataTable({ columns }: DataTableProps<Person, any>) {
     { label: string; value: string }[]
   >([]);
 
-  //sorting and filtering states
+  // Sorting and filtering states
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
   );
 
+  // Fetch data from the swapi api
   async function initialFetch() {
     setLoading(true);
     const initialFetchURL = 'https://swapi.py4e.com/api/people/';
@@ -76,6 +77,7 @@ export function DataTable({ columns }: DataTableProps<Person, any>) {
     fetchData();
   }, []);
 
+  // Fetch more data
   const handleLoadMore = async () => {
     // Fetch next page
     if (nextURL) {
@@ -176,13 +178,14 @@ export function DataTable({ columns }: DataTableProps<Person, any>) {
           </Table>
         </div>
       </div>
-      <div className="flex items-center justify-center py-4">
-        {nextURL && (
+
+      {nextURL && (
+        <div className="flex justify-center">
           <Button variant="outline" onClick={handleLoadMore} disabled={loading}>
             Load More {loading && <Loader2 className="animate-spin" />}
           </Button>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

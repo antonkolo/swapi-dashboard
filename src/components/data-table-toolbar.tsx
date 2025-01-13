@@ -3,6 +3,7 @@
 import { Table } from '@tanstack/react-table';
 import { X } from 'lucide-react';
 import { DataTableFacetedFilter } from './data-table-faceted-filter';
+import { DataTableRangeFilter } from './data-table-range-filter';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 
@@ -35,13 +36,22 @@ export function DataTableToolbar<TData>({
             options={eyeColors}
           />
         )}
-        {/* {table.getColumn('priority') && (
-          <DataTableFacetedFilter
-            column={table.getColumn('priority')}
-            title="Priority"
-            options={priorities}
+        {table.getColumn('height') && (
+          <DataTableRangeFilter
+            column={table.getColumn('height')}
+            title="Height"
+            minValue={0}
+            maxValue={300}
           />
-        )} */}
+        )}
+        {table.getColumn('mass') && (
+          <DataTableRangeFilter
+            column={table.getColumn('mass')}
+            title="Mass"
+            minValue={0}
+            maxValue={1000}
+          />
+        )}
         {isFiltered && (
           <Button
             variant="ghost"

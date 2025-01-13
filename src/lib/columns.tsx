@@ -74,6 +74,15 @@ export const columns: ColumnDef<Person, any>[] = [
       const heightB = parseInt(rowB.getValue('height')) || 0;
       return heightA - heightB;
     },
+    filterFn: (row, id, value: number[]) => {
+      const heightString: string = row.getValue(id);
+      const height = parseInt(heightString) || 0;
+      const [min, max] = value;
+      if (min && max) return height >= min && height <= max;
+      if (min) return height >= min;
+      if (max) return height <= max;
+      return true;
+    },
   },
   {
     accessorKey: 'mass',
@@ -98,6 +107,14 @@ export const columns: ColumnDef<Person, any>[] = [
       const massA = parseInt(rowA.getValue('mass')) || 0;
       const massB = parseInt(rowB.getValue('mass')) || 0;
       return massA - massB;
+    },
+    filterFn: (row, id, value: [number, number]) => {
+      const mass = parseInt(row.getValue(id)) || 0;
+      const [min, max] = value;
+      if (!min && !max) return true;
+      if (min && !max) return mass >= min;
+      if (!min && max) return mass <= max;
+      return mass >= min && mass <= max;
     },
   },
   {
