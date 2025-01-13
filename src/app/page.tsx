@@ -40,7 +40,7 @@ import { columns, Person, type SwapiResponse } from '@/lib/columns';
 
 export default async function Home() {
   return (
-    <div className="container mx-auto py-10">
+    <div >
       <h1>The Force Directory</h1>
       <DataTable columns={columns} />
     </div>
