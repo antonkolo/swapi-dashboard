@@ -3,15 +3,17 @@ import { ModeToggle } from '@/components/mode-toggle';
 import { ThemeProvider } from '@/components/theme-provider';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+const distantGalaxy = localFont({
+  variable: '--font-distant-galaxy',
+  src: [
+    {
+      path: './fonts/SF Distant Galaxy.ttf',
+      weight: '400',
+      style: 'normal',
+    },
+  ],
 });
 
 export const metadata: Metadata = {
@@ -26,9 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${distantGalaxy.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
