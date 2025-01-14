@@ -2,7 +2,6 @@ import './globals.css';
 import { ModeToggle } from '@/components/mode-toggle';
 import { ThemeProvider } from '@/components/theme-provider';
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
 import localFont from 'next/font/local';
 
 const distantGalaxy = localFont({

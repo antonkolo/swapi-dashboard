@@ -40,9 +40,11 @@ import { columns, Person, type SwapiResponse } from '@/lib/columns';
 
 export default async function Home() {
   return (
-    <div >
-      <h1>The Force Directory</h1>
+    <>
+      <h1 className="font-galaxy text-6xl md:text-8xl dark:text-yellow-300 text-center">
+        The Force Directory
+      </h1>
       <DataTable columns={columns} />
-    </div>
+    </>
   );
 }
