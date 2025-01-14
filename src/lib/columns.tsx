@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
+import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
 
 export type Person = {
@@ -30,9 +30,7 @@ export type SwapiResponse = {
   results: Person[];
 };
 
-const columnHelper = createColumnHelper<Person>();
-
-export const columns: ColumnDef<Person, any>[] = [
+export const columns: ColumnDef<Person, keyof Person>[] = [
   {
     accessorKey: 'name',
     header: ({ column }) => {

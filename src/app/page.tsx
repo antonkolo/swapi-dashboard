@@ -1,5 +1,5 @@
 import { DataTable } from '@/components/data-table';
-import { columns, Person, type SwapiResponse } from '@/lib/columns';
+import { columns } from '@/lib/columns';
 
 // Fetch single page
 // async function fetchData(fetchURL: string | URL): Promise<SwapiResponse> {

@@ -28,7 +28,7 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
 }
 
-export function DataTable({ columns }: DataTableProps<Person, any>) {
+export function DataTable({ columns }: DataTableProps<Person, keyof Person>) {
   const [nextURL, setNextURL] = useState<URL | null>(null);
   const [displayData, setDisplayData] = useState<Person[]>([]);
   const [loading, setLoading] = useState(false);
