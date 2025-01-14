@@ -19,51 +19,49 @@ export function DataTableToolbar<TData>({
   const isFiltered = table.getState().columnFilters.length > 0;
 
   return (
-    <div className="flex items-center justify-center">
-      <div className="flex flex-1 items-center flex-wrap  gap-2">
-        <Input
-          placeholder="Search..."
-          value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
-          onChange={(event) =>
-            table.getColumn('name')?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm min-w-32 flex-1"
-        />
-        <div className="flex flex-1 items-center gap-2 wrap">
-          {table.getColumn('eye_color') && (
-            <DataTableFacetedFilter
-              column={table.getColumn('eye_color')}
-              title="Eye Color"
-              options={eyeColors}
-            />
-          )}
-          {table.getColumn('height') && (
-            <DataTableRangeFilter
-              column={table.getColumn('height')}
-              title="Height"
-              minValue={0}
-              maxValue={300}
-            />
-          )}
-          {table.getColumn('mass') && (
-            <DataTableRangeFilter
-              column={table.getColumn('mass')}
-              title="Mass"
-              minValue={0}
-              maxValue={1000}
-            />
-          )}
-          {isFiltered && (
-            <Button
-              variant="ghost"
-              onClick={() => table.resetColumnFilters()}
-              className="h-8 px-2 lg:px-3"
-            >
-              Reset
-              <X />
-            </Button>
-          )}
-        </div>
+    <div className="flex flex-wrap items-center gap-2">
+      <Input
+        placeholder="Search..."
+        value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+        onChange={(event) =>
+          table.getColumn('name')?.setFilterValue(event.target.value)
+        }
+        className="w-full max-w-sm shrink-0"
+      />
+      <div className="flex flex-wrap items-center gap-2">
+        {table.getColumn('eye_color') && (
+          <DataTableFacetedFilter
+            column={table.getColumn('eye_color')}
+            title="Eye Color"
+            options={eyeColors}
+          />
+        )}
+        {table.getColumn('height') && (
+          <DataTableRangeFilter
+            column={table.getColumn('height')}
+            title="Height"
+            minValue={0}
+            maxValue={300}
+          />
+        )}
+        {table.getColumn('mass') && (
+          <DataTableRangeFilter
+            column={table.getColumn('mass')}
+            title="Mass"
+            minValue={0}
+            maxValue={1000}
+          />
+        )}
+        {isFiltered && (
+          <Button
+            variant="ghost"
+            onClick={() => table.resetColumnFilters()}
+            className="h-8 px-2 lg:px-3"
+          >
+            Reset
+            <X />
+          </Button>
+        )}
       </div>
     </div>
   );
